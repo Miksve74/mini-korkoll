@@ -1,6 +1,6 @@
 
 window.MINI_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBxNjKa5fEPCe_R4QKeGo318TbymSIjWaA",
+  apiKey: "AIzaSyBxNjKa5fEPCe_R4QKeGo318TbymSljWaA",
   authDomain: "mini-korkoll.firebaseapp.com",
   projectId: "mini-korkoll",
   storageBucket: "mini-korkoll.firebasestorage.app",
