@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /miniRooms/{roomId} {
+      // Länken innehåller ett slumpmässigt 128-bitars rums-ID.
+      // Enbart innehav av länken + anonym inloggning ger åtkomst.
+      allow read: if request.auth != null && roomId.matches('[a-f0-9]{32}');
+      allow create, update: if request.auth != null && roomId.matches('[a-f0-9]{32}')
+        && request.resource.data.keys().hasOnly(['odometerKm','start','limit','initial','updatedAt'])
+        && request.resource.data.odometerKm is number
+        && request.resource.data.odometerKm >= 0
+        && request.resource.data.odometerKm <= 10000000
+        && request.resource.data.initial is number
+        && request.resource.data.initial >= 0
+        && request.resource.data.initial <= request.resource.data.odometerKm
+        && request.resource.data.limit is number
+        && request.resource.data.limit > 0
+        && request.resource.data.limit <= 100000
+        && request.resource.data.start is string
+        && request.resource.data.start.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.updatedAt is number;
+      allow delete: if false;
+    }
+  }
+}
